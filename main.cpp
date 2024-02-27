@@ -13,7 +13,7 @@
 #include <set>
 #include <queue>
 #include <sstream>
-#include <map>
+#include <unordered_map>
 using namespace std;
 
 #include "utilities.h"
@@ -95,7 +95,7 @@ int main(int argc, char** argv){
         }
     }
 
-    map< string, set<Movie>* > values;
+    unordered_map< string, set<Movie>* > values;
     set<string>::iterator pref_itr = prefixSet.begin();
 
     // rating sorted movie set
