@@ -23,9 +23,9 @@ bool parseLine(string &line, string &movieName, double &movieRating);
 
 struct alphaComp {
 
-    bool operator()(const Movie* m1, const Movie* m2) const
+    bool operator()(const Movie& m1, const Movie& m2) const
     {
-        return m1->getTitle() < m2->getTitle();
+        return m1.getTitle() < m2.getTitle();
     }
 };
 
@@ -46,7 +46,7 @@ int main(int argc, char** argv){
   
     // Create an object of a STL data-structure to store all the movie
     // alphabetical set
-    set<Movie*, alphaComp> movies;
+    set<Movie, alphaComp> movies;
 
     string line, movieName;
     double movieRating;
@@ -60,7 +60,7 @@ int main(int argc, char** argv){
             // cout << movieName << " has rating " << movieRating << endl;
             // insert elements into your data structure
             mov = new Movie(movieName, movieRating);
-            movies.insert(mov);
+            movies.insert(*mov);
     }
 
     movieFile.close();
@@ -69,11 +69,11 @@ int main(int argc, char** argv){
     if (argc == 2){
             //print all the movies in ascending alphabetical order of movie names
 
-            set<Movie*, alphaComp>::iterator itr;
+            set<Movie, alphaComp>::iterator itr;
             cout << fixed << setprecision(1);
             for(itr = movies.begin(); itr != movies.end(); itr++)
             {
-                cout << (*itr)->getTitle() << ", " << (*itr)->getRating() << endl;
+                cout << itr->getTitle() << ", " << itr->getRating() << endl;
             }
 
             return 0;
@@ -95,19 +95,19 @@ int main(int argc, char** argv){
         }
     }
 
-    map< string, set<Movie*>* > values;
+    map< string, set<Movie>* > values;
     set<string>::iterator pref_itr = prefixSet.begin();
 
     // rating sorted movie set
-    set<Movie*>* currPrefSet = new set<Movie*>();
+    set<Movie>* currPrefSet = new set<Movie>();
     values[*pref_itr] = currPrefSet;
     int comp;
 
-    set<Movie*>::iterator itrM = movies.begin();
+    set<Movie>::iterator itrM = movies.begin();
 
     while(itrM != movies.end())
     {   
-        comp = (*itrM)->compPref(*pref_itr);
+        comp = itrM->compPref(*pref_itr);
         if(comp == 0)
         {
             currPrefSet->insert(*itrM);
@@ -122,7 +122,7 @@ int main(int argc, char** argv){
                 break;
             }
 
-            currPrefSet = new set<Movie*>();
+            currPrefSet = new set<Movie>();
             values[*pref_itr] = currPrefSet;
         }
         else
@@ -135,7 +135,7 @@ int main(int argc, char** argv){
 
     for(; pref_itr != prefixSet.end(); pref_itr++)
     {
-        values[*pref_itr] = new set<Movie*>();
+        values[*pref_itr] = new set<Movie>();
     }
 
     //  For each prefix,
@@ -146,7 +146,7 @@ int main(int argc, char** argv){
     string max_name;
     float max_r = 0;
 
-    set<Movie*>::iterator itr;
+    set<Movie>::iterator itr;
 
     for(int i = 0; i < prefixes.size(); i++)
     {
@@ -158,21 +158,21 @@ int main(int argc, char** argv){
         {
             for(itr = values[prefixes[i]]->begin(); itr != values[prefixes[i]]->end(); itr++)
             {
-                cout << (*itr)->getTitle() << ", " << (*itr)->getRating() << endl;
+                cout << itr->getTitle() << ", " << itr->getRating() << endl;
             }
         }
 
         cout << endl;
     }
 
-    set<Movie*>::iterator top;
+    set<Movie>::iterator top;
 
     for(int i = 0; i < prefixes.size(); i++)
     {   
         if(values[prefixes[i]]->size()!=0)
         {
             top = values[prefixes[i]]->begin();
-            cout << "Best movie with prefix " << prefixes[i] << " is: " << (*top)->getTitle() << " with rating " << (*top)->getRating() << endl;
+            cout << "Best movie with prefix " << prefixes[i] << " is: " << top->getTitle() << " with rating " << top->getRating() << endl;
         }
     }
 
