@@ -123,22 +123,26 @@ int main(int argc, char** argv){
     set<Movie>::iterator itr;
     cout << fixed << setprecision(1);
 
+    vector<string> top_names;
     vector<float> top_ratings;
+    string max_name;
     float max_r = 0;
 
     for(int i = 0; i < prefixes.size(); i++)
     {
         max_r = 0;
+        max_name = prefixes[0];
         
         for(itr = values[prefixes[i]]->begin(); itr != values[prefixes[i]]->end(); itr++)
         {
             
             cout << (*itr).getTitle() << ", " << (*itr).getRating() << endl;
 
-            if((*itr).getRating() > max_r){max_r = (*itr).getRating();}
+            if((*itr).getRating() > max_r){max_name = (*itr).getTitle(); max_r = (*itr).getRating();}
         }
 
         cout << endl;
+        top_names.push_back(max_name);
         top_ratings.push_back(max_r);
     }
 
@@ -148,10 +152,13 @@ int main(int argc, char** argv){
         {
             cout << "No movies found with prefix " << prefixes[i] << endl << endl;
         }
-        else
+    }
+
+    for(int i = 0; i < prefixes.size(); i++)
+    {
+        if((*values[prefixes[i]]).size()!=0)
         {
-            Movie top = *(values[prefixes[i]]->begin());
-            cout << "Best movie with prefix " << prefixes[i] << " is: " << top.getTitle() << " with rating " << top_ratings.at(i) << endl;
+            cout << "Best movie with prefix " << prefixes[i] << " is: " << top_names[i] << " with rating " << top_ratings[i] << endl;
         }
     }
 
