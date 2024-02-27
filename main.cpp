@@ -21,6 +21,36 @@ using namespace std;
 
 bool parseLine(string &line, string &movieName, double &movieRating);
 
+// binary searches the set inclusive on both sides
+bool binarySearch(int& begin, int end, string prefix, set<Movie>::iterator& itr)
+{   
+    advance(itr, (end-begin)/2);
+    int comp;
+    
+    while(begin < end-1)
+    {   
+        comp = itr->compPref(prefix);
+
+        if(comp == -1)
+        {
+            begin += (end-begin)/2;
+            advance(itr, (end-begin)/2);
+        }
+        else if(comp == 0 || comp == 1)
+        {
+            end -= (end-begin)/2;
+            advance(itr, (begin-end)/2);
+        }
+    }
+
+    if(itr->compPref(prefix)==-1)
+    {
+        itr++;
+    }
+
+    return itr->compPref(prefix) == 0;
+}
+
 struct alphaComp {
 
     bool operator()(const Movie& m1, const Movie& m2) const
@@ -66,6 +96,26 @@ int main(int argc, char** argv){
     movieFile.close();
 
 
+    
+    //Set Binary Search Tester
+
+    /*set<Movie>::iterator itrTest;
+    cout << fixed << setprecision(1);
+    for(itrTest = movies.begin(); itrTest != movies.end(); itrTest++)
+    {
+        cout << itrTest->getTitle() << ", " << itrTest->getRating() << endl;
+    }
+
+    cout << endl;
+
+    itrTest = movies.begin();
+    int start = 0;
+    bool success = binarySearch(start, movies.size()-1, "n", itrTest);
+    cout << boolalpha << success << endl;
+    cout << itrTest->getTitle() << endl;
+    return 0;*/
+
+
     if (argc == 2){
             //print all the movies in ascending alphabetical order of movie names
 
@@ -98,6 +148,7 @@ int main(int argc, char** argv){
     unordered_map< string, set<Movie>* > values;
     set<string>::iterator pref_itr = prefixSet.begin();
 
+    /*
     // rating sorted movie set
     set<Movie>* currPrefSet = new set<Movie>();
     values[*pref_itr] = currPrefSet;
@@ -105,6 +156,8 @@ int main(int argc, char** argv){
 
     set<Movie>::iterator itrM = movies.begin();
 
+    
+    old while loop
     while(itrM != movies.end())
     {   
         comp = itrM->compPref(*pref_itr);
@@ -129,9 +182,54 @@ int main(int argc, char** argv){
         {
             itrM++;
         }
-    }
+    }*/
 
-    pref_itr++;
+    int start_i = 0;
+    int end_i = movies.size()-1;
+    int comp;
+
+    set<Movie>* newSet;
+    set<Movie>::iterator itrM = movies.begin();
+
+    while(itrM != movies.end() && pref_itr != prefixSet.end())
+    {
+        cout << itrM->getTitle() << " " << *pref_itr << endl;
+        comp = itrM->compPref(*pref_itr);
+
+        if(comp==0)
+        {
+            newSet = new set<Movie>();
+
+            while(itrM!=movies.end() && itrM->compPref(*pref_itr)==0)
+            {
+                newSet->insert(*itrM);
+                itrM++;
+                start_i++;
+            }
+
+            values[*pref_itr] = newSet;
+            pref_itr++;
+        }
+        else if(comp==-1 && binarySearch(start_i, end_i, *pref_itr, itrM))
+        {
+            newSet = new set<Movie>();
+
+            while(itrM!=movies.end() && itrM->compPref(*pref_itr)==0)
+            {
+                newSet->insert(*itrM);
+                itrM++;
+                start_i++;
+            }
+
+            values[*pref_itr] = newSet;
+            pref_itr++;
+        }
+        else
+        {
+            values[*pref_itr] = new set<Movie>();
+            pref_itr++;
+        }
+    }
 
     for(; pref_itr != prefixSet.end(); pref_itr++)
     {
