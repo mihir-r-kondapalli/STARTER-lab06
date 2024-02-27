@@ -144,7 +144,7 @@ int main(int argc, char** argv){
     {
         if(values[prefixes[i]]->size()==0)
         {
-            cout << "No movies found with prefix " << prefixes[i] << endl;
+            cout << "No movies found with prefix " << prefixes[i];
         }
         else
         {
