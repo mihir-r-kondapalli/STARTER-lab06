@@ -132,6 +132,11 @@ int main(int argc, char** argv){
     {
         max_r = 0;
         max_name = prefixes[0];
+
+        if(values[prefixes[i]]->size()==0)
+        {
+            cout << "No movies found with prefix " << prefixes[i] << endl << endl;
+        }
         
         for(itr = values[prefixes[i]]->begin(); itr != values[prefixes[i]]->end(); itr++)
         {
@@ -144,14 +149,6 @@ int main(int argc, char** argv){
         cout << endl;
         top_names.push_back(max_name);
         top_ratings.push_back(max_r);
-    }
-
-    for(int i = 0; i < prefixes.size(); i++)
-    {
-        if((*values[prefixes[i]]).size()==0)
-        {
-            cout << "No movies found with prefix " << prefixes[i] << endl << endl;
-        }
     }
 
     for(int i = 0; i < prefixes.size(); i++)
