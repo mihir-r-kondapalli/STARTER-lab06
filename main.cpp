@@ -46,8 +46,9 @@ bool binarySearch(int& begin, int end, string prefix, set<Movie>::iterator& itr)
     if(itr->compPref(prefix)==-1)
     {
         itr++;
-        begin++;
     }
+
+    begin++;
 
     return itr->compPref(prefix) == 0;
 }
