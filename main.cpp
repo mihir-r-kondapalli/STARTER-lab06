@@ -46,6 +46,7 @@ bool binarySearch(int& begin, int end, string prefix, set<Movie>::iterator& itr)
     if(itr->compPref(prefix)==-1)
     {
         itr++;
+        begin++;
     }
 
     return itr->compPref(prefix) == 0;
@@ -207,13 +208,13 @@ int main(int argc, char** argv){
             }
 
             values[*pref_itr] = newSet;
-            pref_itr++;
         }
         else
         {
             values[*pref_itr] = new set<Movie>();
-            pref_itr++;
         }
+
+        pref_itr++;
     }
 
     for(; pref_itr != prefixSet.end(); pref_itr++)
