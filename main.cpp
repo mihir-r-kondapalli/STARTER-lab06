@@ -1,6 +1,6 @@
 // Winter'24
 // Instructor: Diba Mirza
-// Student name: 
+// Student name: Mihir Kondapalli
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -13,6 +13,7 @@
 #include <set>
 #include <queue>
 #include <sstream>
+#include <map>
 using namespace std;
 
 #include "utilities.h"
@@ -35,21 +36,35 @@ int main(int argc, char** argv){
     }
   
     // Create an object of a STL data-structure to store all the movies
+    set<Movie> movies;
 
     string line, movieName;
     double movieRating;
+
+    Movie* mov;
+
     // Read each file and store the name and rating
     while (getline (movieFile, line) && parseLine(line, movieName, movieRating)){
             // Use std::string movieName and double movieRating
             // to construct your Movie objects
             // cout << movieName << " has rating " << movieRating << endl;
             // insert elements into your data structure
+            mov = new Movie(movieName, movieRating);
+            movies.insert(*mov);
     }
 
     movieFile.close();
 
     if (argc == 2){
             //print all the movies in ascending alphabetical order of movie names
+
+            set<Movie>::iterator itr;
+            cout << fixed << setprecision(1);
+            for(itr = movies.begin(); itr != movies.end(); itr++)
+            {
+                cout << (*itr).getTitle() << ", " << (*itr).getRating() << endl;
+            }
+
             return 0;
     }
 
@@ -67,14 +82,50 @@ int main(int argc, char** argv){
         }
     }
 
+    map<string, set<Movie>* > values;
+
+    int pref_counter = 0;
+    set<Movie>* currPref = new set<Movie>();
+    values[prefixes[pref_counter]] = currPref;
+
+    set<Movie>::iterator itrM;
+
+    for(itrM = movies.begin(); itrM != movies.end(); itrM++)
+    {
+        int comp = (*itrM).compPref(prefixes[pref_counter]);
+        if(comp == 0)
+        {
+            (*currPref).insert(*itrM);
+        }
+        else if(comp == 1)
+        {
+            pref_counter++;
+            if(pref_counter >= prefixes.size())
+            {
+                break;
+            }
+            currPref = new set<Movie>();
+            values[prefixes[pref_counter]] = currPref;
+        }
+    }
+
     //  For each prefix,
     //  Find all movies that have that prefix and store them in an appropriate data structure
     //  If no movie with that prefix exists print the following message
-    cout << "No movies found with prefix "<<"<replace with prefix>" << endl << endl;
+
+    for(int i = 0; i<prefixes.size(); i++)
+    {
+        if(values.find(prefixes[i])==values.end() || (*values[prefixes[i]]).size()==0)
+        {
+            cout << "No movies found with prefix " << prefixes[i] << endl << endl;
+        }
+
+        Movie top = *(values[prefixes[i]]->begin());
+        cout << "Best movie with prefix " << prefixes[i] << " is: " << top.getTitle() << " with rating " << std::fixed << std::setprecision(1) << top.getRating() << endl;
+    }
 
     //  For each prefix,
     //  Print the highest rated movie with that prefix if it exists.
-    cout << "Best movie with prefix " << "<replace with prefix>" << " is: " << "replace with movie name" << " with rating " << std::fixed << std::setprecision(1) << "replace with movie rating" << endl;
 
     return 0;
 }
