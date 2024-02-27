@@ -59,8 +59,11 @@ int main(int argc, char** argv){
             // to construct your Movie objects
             // cout << movieName << " has rating " << movieRating << endl;
             // insert elements into your data structure
+            
             mov = new Movie(movieName, movieRating);
             movies.insert(*mov);
+
+            cout << line.size();
     }
 
     movieFile.close();
@@ -138,16 +141,16 @@ int main(int argc, char** argv){
     string max_name;
     float max_r = 0;
 
-    set<Movie>::iterator itr;
-
     for(int i = 0; i < prefixes.size(); i++)
     {
         if(values[prefixes[i]]->size()==0)
         {
-            cout << "No movies found with prefix " << prefixes[i];
+            cout << "No movies found with prefix " << prefixes[i] << endl;
         }
         else
         {
+            set<Movie>::iterator itr;
+
             for(itr = values[prefixes[i]]->begin(); itr != values[prefixes[i]]->end(); itr++)
             {
                 cout << itr->getTitle() << ", " << itr->getRating() << endl;
