@@ -119,9 +119,11 @@ int main(int argc, char** argv){
         {
             cout << "No movies found with prefix " << prefixes[i] << endl << endl;
         }
-
-        Movie top = *(values[prefixes[i]]->begin());
-        cout << "Best movie with prefix " << prefixes[i] << " is: " << top.getTitle() << " with rating " << std::fixed << std::setprecision(1) << top.getRating() << endl;
+        else
+        {
+            Movie top = *(values[prefixes[i]]->begin());
+            cout << "Best movie with prefix " << prefixes[i] << " is: " << top.getTitle() << " with rating " << std::fixed << std::setprecision(1) << top.getRating() << endl;
+        }
     }
 
     //  For each prefix,
