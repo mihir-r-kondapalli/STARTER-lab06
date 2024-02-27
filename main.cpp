@@ -195,21 +195,7 @@ int main(int argc, char** argv){
     {
         comp = itrM->compPref(*pref_itr);
 
-        if(comp==0)
-        {
-            newSet = new set<Movie>();
-
-            while(itrM!=movies.end() && itrM->compPref(*pref_itr)==0)
-            {
-                newSet->insert(*itrM);
-                itrM++;
-                start_i++;
-            }
-
-            values[*pref_itr] = newSet;
-            pref_itr++;
-        }
-        else if(comp==-1 && binarySearch(start_i, end_i, *pref_itr, itrM))
+        if(comp == 0 || (comp==-1 && binarySearch(start_i, end_i, *pref_itr, itrM)))
         {
             newSet = new set<Movie>();
 
