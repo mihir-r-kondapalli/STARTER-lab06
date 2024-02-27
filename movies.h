@@ -9,9 +9,9 @@ class Movie
     public:
 
         Movie(string title, float rating);
-        bool operator>(const Movie & other) const;
-        bool operator==(const Movie & other) const;
-        bool operator<(const Movie & other) const;
+        bool operator>(const Movie * other) const;
+        bool operator==(const Movie * other) const;
+        bool operator<(const Movie * other) const;
         string getTitle() const;
         int compPref(string pref) const;
         float getRating() const;
