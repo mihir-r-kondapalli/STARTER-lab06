@@ -60,6 +60,10 @@ int main(int argc, char** argv){
             // cout << movieName << " has rating " << movieRating << endl;
             // insert elements into your data structure
             
+            if(line.at(0)=='"')
+            {
+                line = line.substr(0, line.find('"')) + line.substr(line.find('"'), line.size()-line.find('"'));
+            }
             mov = new Movie(movieName, movieRating);
             movies.insert(*mov);
     }
