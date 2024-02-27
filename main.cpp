@@ -193,7 +193,6 @@ int main(int argc, char** argv){
 
     while(itrM != movies.end() && pref_itr != prefixSet.end())
     {
-        cout << itrM->getTitle() << " " << *pref_itr << endl;
         comp = itrM->compPref(*pref_itr);
 
         if(comp==0)
