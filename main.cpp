@@ -145,9 +145,6 @@ int main(int argc, char** argv){
 
     set<Movie>::iterator itr;
 
-    cout << prefixes.size() << endl;
-    cout << values.size() << endl;
-
     for(int i = 0; i < prefixes.size(); i++)
     {
         if(values[prefixes[i]]->size()==0)
