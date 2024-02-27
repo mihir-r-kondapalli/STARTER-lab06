@@ -62,8 +62,6 @@ int main(int argc, char** argv){
             
             mov = new Movie(movieName, movieRating);
             movies.insert(*mov);
-
-            cout << line.size();
     }
 
     movieFile.close();
@@ -76,7 +74,7 @@ int main(int argc, char** argv){
             cout << fixed << setprecision(1);
             for(itr = movies.begin(); itr != movies.end(); itr++)
             {
-                cout <<itr->getTitle() << ", " << itr->getRating() << endl;
+                cout << itr->getTitle() << ", " << itr->getRating() << endl;
             }
 
             return 0;
@@ -99,7 +97,6 @@ int main(int argc, char** argv){
     }
 
     map< string, set<Movie>* > values;
-
     set<string>::iterator pref_itr = prefixSet.begin();
 
     // rating sorted movie set
@@ -133,6 +130,11 @@ int main(int argc, char** argv){
         }
     }
 
+    for(; pref_itr != prefixSet.end(); pref_itr++)
+    {
+        values[*pref_itr] = new set<Movie>();
+    }
+
     //  For each prefix,
     //  Find all movies that have that prefix and store them in an appropriate data structure
     //  If no movie with that prefix exists print the following message
@@ -140,6 +142,11 @@ int main(int argc, char** argv){
     cout << fixed << setprecision(1);
     string max_name;
     float max_r = 0;
+
+    set<Movie>::iterator itr;
+
+    cout << prefixes.size() << endl;
+    cout << values.size() << endl;
 
     for(int i = 0; i < prefixes.size(); i++)
     {
@@ -149,8 +156,6 @@ int main(int argc, char** argv){
         }
         else
         {
-            set<Movie>::iterator itr;
-
             for(itr = values[prefixes[i]]->begin(); itr != values[prefixes[i]]->end(); itr++)
             {
                 cout << itr->getTitle() << ", " << itr->getRating() << endl;
