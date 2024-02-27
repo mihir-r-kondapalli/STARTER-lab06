@@ -10,8 +10,10 @@ Movie::Movie(string title, float rating)
 }
 
 bool Movie::operator>(const Movie & other) const
-{
-    return rating < other.getRating();
+{   
+    if(rating < other.getRating()){return true;}
+    if(rating == other.getRating()){return title < other.getTitle();}
+    return false;
 }
 
 bool Movie::operator==(const Movie & other) const
@@ -21,7 +23,9 @@ bool Movie::operator==(const Movie & other) const
 
 bool Movie::operator<(const Movie & other) const
 {
-    return rating > other.getRating();
+    if(rating > other.getRating()){return true;}
+    if(rating == other.getRating()){return title > other.getTitle();}
+    return false;
 }
 
 string Movie::getTitle() const
