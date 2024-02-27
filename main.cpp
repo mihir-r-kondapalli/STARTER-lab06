@@ -76,36 +76,43 @@ int main(int argc, char** argv){
     }
 
     vector<string> prefixes;
+    set<string> prefixeSet;
     while (getline (prefixFile, line)) {
         if (!line.empty()) {
             prefixes.push_back(line);
+            prefixeSet.insert(line);
         }
     }
 
     map<string, set<Movie>* > values;
 
-    int pref_counter = 0;
-    set<Movie>* currPref = new set<Movie>();
-    values[prefixes[pref_counter]] = currPref;
+    set<string>::iterator pref_itr = prefixeSet.begin();
+    set<Movie>* currPrefSet = new set<Movie>();
+    values[*pref_itr] = currPrefSet;
 
-    set<Movie>::iterator itrM;
+    set<Movie>::iterator itrM = movies.begin();
 
-    for(itrM = movies.begin(); itrM != movies.end(); itrM++)
+    while(itrM != movies.end())
     {
-        int comp = (*itrM).compPref(prefixes[pref_counter]);
+        int comp = (*itrM).compPref(*pref_itr);
         if(comp == 0)
         {
-            (*currPref).insert(*itrM);
+            (*currPrefSet).insert(*itrM);
+            itrM++;
         }
         else if(comp == 1)
         {
-            pref_counter++;
-            if(pref_counter >= prefixes.size())
+            pref_itr++;
+            if(pref_itr == prefixeSet.end())
             {
                 break;
             }
-            currPref = new set<Movie>();
-            values[prefixes[pref_counter]] = currPref;
+            currPrefSet = new set<Movie>();
+            values[*pref_itr] = currPrefSet;
+        }
+        else
+        {
+            itrM++;
         }
     }
 
@@ -113,16 +120,38 @@ int main(int argc, char** argv){
     //  Find all movies that have that prefix and store them in an appropriate data structure
     //  If no movie with that prefix exists print the following message
 
-    for(int i = 0; i<prefixes.size(); i++)
+    set<Movie>::iterator itr;
+    cout << fixed << setprecision(1);
+
+    vector<float> top_ratings;
+    float max_r = 0;
+
+    for(int i = 0; i < prefixes.size(); i++)
     {
-        if(values.find(prefixes[i])==values.end() || (*values[prefixes[i]]).size()==0)
+        max_r = 0;
+        
+        for(itr = values[prefixes[i]]->begin(); itr != values[prefixes[i]]->end(); itr++)
+        {
+            
+            cout << (*itr).getTitle() << ", " << (*itr).getRating() << endl;
+
+            if((*itr).getRating() > max_r){max_r = (*itr).getRating();}
+        }
+
+        cout << endl;
+        top_ratings.push_back(max_r);
+    }
+
+    for(int i = 0; i < prefixes.size(); i++)
+    {
+        if((*values[prefixes[i]]).size()==0)
         {
             cout << "No movies found with prefix " << prefixes[i] << endl << endl;
         }
         else
         {
             Movie top = *(values[prefixes[i]]->begin());
-            cout << "Best movie with prefix " << prefixes[i] << " is: " << top.getTitle() << " with rating " << std::fixed << std::setprecision(1) << top.getRating() << endl;
+            cout << "Best movie with prefix " << prefixes[i] << " is: " << top.getTitle() << " with rating " << top_ratings.at(i) << endl;
         }
     }
 
