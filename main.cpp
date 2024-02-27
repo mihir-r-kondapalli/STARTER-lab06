@@ -106,7 +106,7 @@ int main(int argc, char** argv){
     set<Movie>::iterator itrM = movies.begin();
 
     while(itrM != movies.end())
-    {
+    {   
         comp = itrM->compPref(*pref_itr);
         if(comp == 0)
         {
@@ -116,10 +116,12 @@ int main(int argc, char** argv){
         else if(comp == 1)
         {
             pref_itr++;
+
             if(pref_itr == prefixSet.end())
             {
                 break;
             }
+
             currPrefSet = new set<Movie>();
             values[*pref_itr] = currPrefSet;
         }
@@ -128,6 +130,8 @@ int main(int argc, char** argv){
             itrM++;
         }
     }
+
+    pref_itr++;
 
     for(; pref_itr != prefixSet.end(); pref_itr++)
     {
