@@ -12,7 +12,7 @@ Movie::Movie(string title, float rating)
 bool Movie::operator>(const Movie & other) const
 {   
     if(rating < other.getRating()){return true;}
-    if(rating == other.getRating()){return title < other.getTitle();}
+    if(rating == other.getRating()){return title > other.getTitle();}
     return false;
 }
 
@@ -24,7 +24,7 @@ bool Movie::operator==(const Movie & other) const
 bool Movie::operator<(const Movie & other) const
 {
     if(rating > other.getRating()){return true;}
-    if(rating == other.getRating()){return title > other.getTitle();}
+    if(rating == other.getRating()){return title < other.getTitle();}
     return false;
 }
 
