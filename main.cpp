@@ -189,6 +189,8 @@ int main(int argc, char** argv){
         }
     }
 
+    pref_itr++;
+
     /*int start_i = 0;
     int end_i = movies.size()-1;
     int comp;
@@ -219,13 +221,12 @@ int main(int argc, char** argv){
         }
 
         pref_itr++;
-    }
+    }*/
 
     for(; pref_itr != prefixSet.end(); pref_itr++)
     {
         values[*pref_itr] = new set<Movie>();
     }
-    */
 
     //  For each prefix,
     //  Find all movies that have that prefix and store them in an appropriate data structure
