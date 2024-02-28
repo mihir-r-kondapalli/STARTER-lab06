@@ -22,9 +22,10 @@ using namespace std;
 bool parseLine(string &line, string &movieName, double &movieRating);
 
 // binary searches the set inclusive on both sides
-bool binarySearch(int& begin, int end, string prefix, set<Movie>::iterator& itr)
+bool binarySearch(int& tracker, int begin, int end, string prefix, set<Movie>::iterator& itr, const set<Movie>::iterator& end_itr)
 {   
     advance(itr, (end-begin)/2);
+    tracker+=(end-begin)/2;
     int comp;
     
     while(begin < end-1)
@@ -35,18 +36,14 @@ bool binarySearch(int& begin, int end, string prefix, set<Movie>::iterator& itr)
         {
             begin += (end-begin)/2;
             advance(itr, (end-begin)/2);
+            tracker+=(end-begin)/2;
         }
         else if(comp == 0 || comp == 1)
         {
             end -= (end-begin)/2;
             advance(itr, (begin-end)/2);
+            tracker-=(end-begin)/2;
         }
-    }
-
-    if(itr->compPref(prefix)==-1)
-    {
-        itr++;
-        begin++;
     }
 
     return itr->compPref(prefix) == 0;
@@ -196,7 +193,7 @@ int main(int argc, char** argv){
     {
         comp = itrM->compPref(*pref_itr);
 
-        if(comp == 0 || (comp==-1 && binarySearch(start_i, end_i, *pref_itr, itrM)))
+        if(comp == 0 || (comp==-1 && binarySearch(start_i, start_i, end_i, *pref_itr, itrM, movies.end())))
         {
             newSet = new set<Movie>();
 
