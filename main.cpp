@@ -293,6 +293,11 @@ I designed my algorithm with the goal of getting a low time complexity. I was tr
 
 3c)
 
+I wasn't able to really acheive a fast runtime. I think I waste a lot of time when I iterate through both the movie set and the prefix
+set. I wanted to find a way to use binary search to quickly find the next prefix in the movie set. I tried implementing this but it
+ended up having a longer runtime. I think using binary search on a set is not beneficial and to really get a faster solution I might
+need to approach the problem a different way with different data structures.
+
 */
 
 bool parseLine(string &line, string &movieName, double &movieRating) {
