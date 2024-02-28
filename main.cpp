@@ -236,8 +236,6 @@ int main(int argc, char** argv){
     string max_name;
     float max_r = 0;
 
-    vector<string> validPrefs; // vector of prefix values with movies
-
     set<Movie>::iterator itr;
 
     for(int i = 0; i < prefixes.size(); i++)
@@ -248,8 +246,6 @@ int main(int argc, char** argv){
         }
         else
         {
-            validPrefs.push_back(prefixes[i]);
-            
             for(itr = values[prefixes[i]]->begin(); itr != values[prefixes[i]]->end(); itr++)
             {
                 cout << itr->getTitle() << ", " << itr->getRating() << endl;
@@ -261,10 +257,13 @@ int main(int argc, char** argv){
 
     set<Movie>::iterator top;
 
-    for(int i = 0; i < validPrefs.size(); i++)
+    for(int i = 0; i < prefixes.size(); i++)
     {   
-        top = values[validPrefs[i]]->begin();
-        cout << "Best movie with prefix " << validPrefs[i] << " is: " << top->getTitle() << " with rating " << top->getRating() << endl;
+        if(values[prefixes[i]]->size()!=0)
+        {
+            top = values[prefixes[i]]->begin();
+            cout << "Best movie with prefix " << prefixes[i] << " is: " << top->getTitle() << " with rating " << top->getRating() << endl;
+        }
     }
 
     return 0;
