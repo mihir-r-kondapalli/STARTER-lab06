@@ -264,7 +264,7 @@ int main(int argc, char** argv){
     for(int i = 0; i < validPrefs.size(); i++)
     {   
         top = values[validPrefs[i]]->begin();
-        cout << "Best movie with prefix " << prefixes[i] << " is: " << top->getTitle() << " with rating " << top->getRating() << endl;
+        cout << "Best movie with prefix " << validPrefs[i] << " is: " << top->getTitle() << " with rating " << top->getRating() << endl;
     }
 
     return 0;
