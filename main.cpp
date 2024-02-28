@@ -46,6 +46,12 @@ bool binarySearch(int& tracker, int begin, int end, string prefix, set<Movie>::i
         }
     }
 
+    if(itr->compPref(prefix) == -1)
+    {
+        itr++;
+        tracker++;
+    }
+
     return itr->compPref(prefix) == 0;
 }
 
