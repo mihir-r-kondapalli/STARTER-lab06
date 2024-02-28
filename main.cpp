@@ -20,7 +20,7 @@ using namespace std;
 #include "movies.h"
 
 bool parseLine(string &line, string &movieName, double &movieRating);
-
+/*
 // binary searches the set inclusive on both sides
 bool binarySearch(int& tracker, int begin, int end, string prefix, set<Movie>::iterator& itr, const set<Movie>::iterator& end_itr)
 {   
@@ -54,6 +54,7 @@ bool binarySearch(int& tracker, int begin, int end, string prefix, set<Movie>::i
 
     return itr->compPref(prefix) == 0;
 }
+*/
 
 struct alphaComp {
 
@@ -152,7 +153,7 @@ int main(int argc, char** argv){
     unordered_map< string, set<Movie>* > values;
     set<string>::iterator pref_itr = prefixSet.begin();
 
-    /*
+    
     // rating sorted movie set
     set<Movie>* currPrefSet = new set<Movie>();
     values[*pref_itr] = currPrefSet;
@@ -161,7 +162,7 @@ int main(int argc, char** argv){
     set<Movie>::iterator itrM = movies.begin();
 
     
-    old while loop
+    // old while loop
     while(itrM != movies.end())
     {   
         comp = itrM->compPref(*pref_itr);
@@ -186,9 +187,9 @@ int main(int argc, char** argv){
         {
             itrM++;
         }
-    }*/
+    }
 
-    int start_i = 0;
+    /*int start_i = 0;
     int end_i = movies.size()-1;
     int comp;
 
@@ -224,6 +225,7 @@ int main(int argc, char** argv){
     {
         values[*pref_itr] = new set<Movie>();
     }
+    */
 
     //  For each prefix,
     //  Find all movies that have that prefix and store them in an appropriate data structure
