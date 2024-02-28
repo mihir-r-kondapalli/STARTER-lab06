@@ -236,6 +236,8 @@ int main(int argc, char** argv){
     string max_name;
     float max_r = 0;
 
+    vector<string> validPrefs; // vector of prefix values with movies
+
     set<Movie>::iterator itr;
 
     for(int i = 0; i < prefixes.size(); i++)
@@ -246,6 +248,8 @@ int main(int argc, char** argv){
         }
         else
         {
+            validPrefs.push_back(prefixes[i]);
+            
             for(itr = values[prefixes[i]]->begin(); itr != values[prefixes[i]]->end(); itr++)
             {
                 cout << itr->getTitle() << ", " << itr->getRating() << endl;
@@ -257,19 +261,40 @@ int main(int argc, char** argv){
 
     set<Movie>::iterator top;
 
-    for(int i = 0; i < prefixes.size(); i++)
+    for(int i = 0; i < validPrefs.size(); i++)
     {   
-        if(values[prefixes[i]]->size()!=0)
-        {
-            top = values[prefixes[i]]->begin();
-            cout << "Best movie with prefix " << prefixes[i] << " is: " << top->getTitle() << " with rating " << top->getRating() << endl;
-        }
+        top = values[validPrefs[i]]->begin();
+        cout << "Best movie with prefix " << prefixes[i] << " is: " << top->getTitle() << " with rating " << top->getRating() << endl;
     }
 
     return 0;
 }
 
-/* Add your run time analysis for part 3 of the assignment here as commented block*/
+/* Add your run time analysis for part 3 of the assignment here as commented block
+
+all n movies are already stored in your data structure.
+all m prefixes are already stored in an array.
+
+Since I enter the prefixes into a set, it takes up log(m) of runtime
+I loop through the movie set and the prefix set at the same time which takes up n + m runtime
+Then, I loop through the prefix array to print out the either movie titles or no movies found statement, m runtime
+Then, I loop through the prefix array one more time to print out the best movie statements, m runtime
+
+Runtime: log(m) + n + m + m + m
+
+3a)
+
+O(log(m) + n + 3m)
+
+3b)
+
+Did you design your algorithm for a low time complexity, a low space complexity, or both? What were your target complexities?
+
+I designed my algorithm with the goal of getting a low time complexity. I was trying to target an nlogn + m runtime.
+
+3c)
+
+*/
 
 bool parseLine(string &line, string &movieName, double &movieRating) {
     int commaIndex = line.find_last_of(",");
