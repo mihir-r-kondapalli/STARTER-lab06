@@ -274,22 +274,29 @@ int main(int argc, char** argv){
 all n movies are already stored in your data structure.
 all m prefixes are already stored in an array.
 
+k is the amount of movies that are associated with a prefix from the prefix set.
+
 Since I enter the prefixes into a set, it takes up log(m) of runtime
-I loop through the movie set and the prefix set at the same time which takes up n + m runtime
+I loop through the movie set and the prefix set at the same time which should take up n + m runtime. However, k movies are inserted
+into the various prefix sets. Therefore, this should take n + m * log(k) runtime.
 Then, I loop through the prefix array to print out the either movie titles or no movies found statement, m runtime
 Then, I loop through the prefix array one more time to print out the best movie statements, m runtime
 
-Runtime: log(m) + n + m + m + m
+Runtime: log(m) + n + m * log(k)
 
 3a)
 
-O(log(m) + n + 3m)
+O(log(m) + n + 2m + m * log(k))
 
 3b)
 
 Did you design your algorithm for a low time complexity, a low space complexity, or both? What were your target complexities?
 
 I designed my algorithm with the goal of getting a low time complexity. I was trying to target an nlogn + m runtime.
+
+In order to get that runtime, I had to be a bit ineffiecient with my space complexity. For space complexity, I used a set of
+prefixes which took up m space. I also used a map for the movies that had prefixes so it would be O(k). Therefore, the space
+complexity used is O(m + k). The map took up a lot of space but that was the cost to acheive a faster runtime.
 
 3c)
 
