@@ -282,7 +282,7 @@ into the various prefix sets. Therefore, this should take n + m * log(k) runtime
 Then, I loop through the prefix array to print out the either movie titles or no movies found statement, m runtime
 Then, I loop through the prefix array one more time to print out the best movie statements, m runtime
 
-Runtime: log(m) + n + m * log(k)
+Runtime: log(m) + n + m * log(k) + m + m
 
 3a)
 
